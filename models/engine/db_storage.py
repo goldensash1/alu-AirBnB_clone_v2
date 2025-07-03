@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-"""new class for sqlAlchemy"""
+""" new class for sqlAlchemy """
 from os import getenv
 from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy import create_engine
+from sqlalchemy import (create_engine)
+from sqlalchemy.ext.declarative import declarative_base
 from models.base_model import Base
 from models.state import State
 from models.city import City
@@ -13,7 +14,7 @@ from models.amenity import Amenity
 
 
 class DBStorage:
-    """create tables in environmental"""
+    """ create tables"""
     __engine = None
     __session = None
 
@@ -25,8 +26,8 @@ class DBStorage:
         env = getenv("HBNB_ENV")
 
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                     .format(user, passwd, host, db),
-                                     pool_pre_ping=True)
+                                      .format(user, passwd, host, db),
+                                      pool_pre_ping=True)
 
         if env == "test":
             Base.metadata.drop_all(self.__engine)
@@ -51,7 +52,7 @@ class DBStorage:
                 for elem in query:
                     key = "{}.{}".format(type(elem).__name__, elem.id)
                     dic[key] = elem
-        return dic
+        return (dic)
 
     def new(self, obj):
         """add a new element in the table
@@ -67,7 +68,7 @@ class DBStorage:
         """delete an element in the table
         """
         if obj:
-            self.__session.delete(obj)
+            self.session.delete(obj)
 
     def reload(self):
         """configuration
